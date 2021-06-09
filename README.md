@@ -17,6 +17,11 @@ $ python manage.py filldb
 3. Документация к API доступна по ссылке https://app.swaggerhub.com/apis/Dimkashow/BusRoutesApi/1.0.0
 4. Docker образ досутпен по ссылке https://hub.docker.com/repository/docker/dimkov27/rest_api_web
 
+Для того, чтобы заустить проект выполните команды
+```console
+$ docker-compose up -d --build
+$ docker-compose up
+```
 
 Демонстрация работы API
 ```console
