@@ -1,0 +1,10 @@
+sudo docker-compose up -d --build
+sudo docker-compose exec web python manage.py migrate
+sudo docker-compose exec web python manage.py filldb
+
+sudo docker build -f ./app/Dockerfile -t rest_api_web:latest ./app
+
+sudo docker run -d \
+    -p 8888:8000 \
+    -e "SECRET_KEY=please_change_me" -e "DEBUG=1" -e "DJANGO_ALLOWED_HOSTS=*" \
+    rest_api_web:latest python /usr/src/app/manage.py runserver 0.0.0.0:8000

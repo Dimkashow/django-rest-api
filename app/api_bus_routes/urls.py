@@ -6,5 +6,7 @@ urlpatterns = [
     path('detail/<int:pk>/', views.routeDetail, name="details"),
     path('create', views.routeCreate, name="create"),
     path('update/<int:pk>/', views.routeUpdate, name="update"),
-    path('delete/<str:pk>/', views.routeDelete, name="delete"),
+    path('delete/<int:pk>/', views.routeDelete, name="delete"),
+    path('search', views.routeSearch, name="search"),
+    path('findroute/<str:start>/<str:end>/', views.findNeedRoute, name="find")
 ]
