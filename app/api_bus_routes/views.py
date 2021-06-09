@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, get_list_or_404
 
-from .models import RouteModel
+from .models import RouteModel, AdminCodeModel
 from .serializers import RouteSerializer
 
 
@@ -27,7 +27,7 @@ def routeDetail(request: rest_framework.request.Request, pk: int):
 def routeSearch(request: rest_framework.request.Request):
     routes = RouteModel.objects.all()
 
-    search_dict = ["id", "rf_subject", "transportation_route", "route_number", "carrier",
+    search_dict = ["id", "rf_subject", "route_number", "carrier",
                    "date_of_entry", "registry_number", "destination", "destination_code"]
 
     search_kwarg = {}
@@ -66,10 +66,13 @@ def routeCreate(request: rest_framework.request.Request):
 
 @api_view(['POST'])
 def routeUpdate(request: rest_framework.request.Request, pk: int):
+    admin_codes = AdminCodeModel.objects.all()
+    get_object_or_404(admin_codes, code=request.GET.get("api_key", ""))
+
     routes = RouteModel.objects.all()
     route = get_object_or_404(routes, id=pk)
-    serializer = RouteSerializer(instance=route, data=request.data)
 
+    serializer = RouteSerializer(instance=route, data=request.data)
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
@@ -77,8 +80,12 @@ def routeUpdate(request: rest_framework.request.Request, pk: int):
 
 @api_view(['DELETE'])
 def routeDelete(request: rest_framework.request.Request, pk: int):
+    admin_codes = AdminCodeModel.objects.all()
+    get_object_or_404(admin_codes, code=request.GET.get("api_key", ""))
+
     routes = RouteModel.objects.all()
     route = get_object_or_404(routes, id=pk)
     route.delete()
 
     return Response('Deleted')
+

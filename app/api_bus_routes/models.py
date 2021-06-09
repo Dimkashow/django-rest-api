@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 
+class AdminCodeModel(models.Model):
+    code = models.TextField()
+
+
 class RouteModel(models.Model):
     id = models.IntegerField(primary_key=True)
     rf_subject = models.TextField(blank=True, null=True)
@@ -21,3 +25,4 @@ class RouteModel(models.Model):
 
     def __str__(self):
         return self.route_number
+

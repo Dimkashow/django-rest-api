@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from api_bus_routes.models import RouteModel
+from api_bus_routes.models import RouteModel, AdminCodeModel
 
 
 def normalized_data(date: str) -> str:
@@ -46,8 +46,11 @@ def parse_csv(csv_name: str):
                 model.save()
             except ValueError as e:
                 print(e)
+        admin_code = AdminCodeModel.objects.create(code="test")
+        admin_code.save()
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
         parse_csv('data/route_data.csv')
+
